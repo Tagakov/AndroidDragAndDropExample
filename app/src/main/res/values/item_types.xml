@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="item_type_1" type="id"/>
+    <item name="item_type_2" type="id"/>
+    <item name="item_type_3" type="id"/>
+    <item name="item_type_4" type="id"/>
+    <item name="item_type_5" type="id"/>
+    <item name="item_type_6" type="id"/>
+    <item name="item_type_7" type="id"/>
+    <item name="item_type_8" type="id"/>
+    <item name="item_type_9" type="id"/>
+    <item name="item_type_10" type="id"/>
+
+</resources>
