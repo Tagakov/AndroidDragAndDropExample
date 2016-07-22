@@ -62,4 +62,13 @@
         android:onClick="onClick"
         android:text="Staggered Grid Layout Manager Diff"
         android:gravity="center_vertical|start"/>
+
+    <Button
+        android:id="@+id/btn_linearPositionDependentTypes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_staggeredGridDiff"
+        android:onClick="onClick"
+        android:text="Linear Layout Manager with pos dependent types"
+        android:gravity="center_vertical|start"/>
 </RelativeLayout>

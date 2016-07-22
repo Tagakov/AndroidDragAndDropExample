@@ -55,7 +55,7 @@ class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements ItemTo
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_type_10, parent, false);
                 break;
             default:
-                throw new RuntimeException("Unknow view type: " + viewType);
+                throw new RuntimeException("Unknown view type: " + viewType);
         }
         return new ItemViewHolder(view);
     }

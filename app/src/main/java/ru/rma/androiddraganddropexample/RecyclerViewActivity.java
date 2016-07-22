@@ -1,6 +1,5 @@
 package ru.rma.androiddraganddropexample;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +17,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
     public static final String KEY_DIFFERENT_VIEW_TYPES = "ru.rma.androiddraganddropexample.RecyclerViewActivity.KEY_DIFFERENT_VIEW_TYPES";
     public static final String KEY_LAYOUT_MANAGER_TYPE = "ru.rma.androiddraganddropexample.RecyclerViewActivity.KEY_LAYOUT_MANAGER_TYPE";
+    public static final String KEY_TYPES_POS_DEPENDENT = "ru.rma.androiddraganddropexample.RecyclerViewActivity.KEY_TYPES_POS_DEPENDENT";
     public static final int LAYOUT_MANAGER_LINEAR = 1;
     public static final int LAYOUT_MANAGER_GRID = 2;
     public static final int LAYOUT_MANAGER_STAGGERED_GRID = 3;
@@ -27,7 +27,8 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
 
     private int mLayoutManagerType;
-    private boolean isDifferentViewTypes;
+    private boolean mIsDifferentViewTypes;
+    private boolean mTypesPosDependent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +40,19 @@ public class RecyclerViewActivity extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
-        Intent intent = getIntent();
-        if (savedInstanceState != null) {
-            isDifferentViewTypes = savedInstanceState.getBoolean(KEY_DIFFERENT_VIEW_TYPES, true);
-            mLayoutManagerType = savedInstanceState.getInt(KEY_LAYOUT_MANAGER_TYPE, LAYOUT_MANAGER_LINEAR);
-        } else if (intent != null) {
-            isDifferentViewTypes = intent.getBooleanExtra(KEY_DIFFERENT_VIEW_TYPES, true);
-            mLayoutManagerType = intent.getIntExtra(KEY_LAYOUT_MANAGER_TYPE, LAYOUT_MANAGER_LINEAR);
+        Bundle bundle = savedInstanceState != null ? savedInstanceState : getIntent().getExtras();
+        if (bundle != null) {
+            mIsDifferentViewTypes = bundle.getBoolean(KEY_DIFFERENT_VIEW_TYPES, true);
+            mLayoutManagerType = bundle.getInt(KEY_LAYOUT_MANAGER_TYPE, LAYOUT_MANAGER_LINEAR);
+            mTypesPosDependent = bundle.getBoolean(KEY_TYPES_POS_DEPENDENT, false);
         } else {
-            isDifferentViewTypes = true;
+            mIsDifferentViewTypes = true;
             mLayoutManagerType = LAYOUT_MANAGER_LINEAR;
+            mTypesPosDependent = false;
         }
-
-        ItemAdapter adapter = new ItemAdapter(createItemList());
+        List<ItemModel> models = createItemList();
+        ItemAdapter adapter = mTypesPosDependent ? new PositionTypeAdapter(models) :
+                new ItemAdapter(models);
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv_list);
         switch (mLayoutManagerType) {
             case LAYOUT_MANAGER_GRID:
@@ -76,13 +77,15 @@ public class RecyclerViewActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         outState.putInt(KEY_LAYOUT_MANAGER_TYPE, mLayoutManagerType);
+        outState.putBoolean(KEY_DIFFERENT_VIEW_TYPES, mIsDifferentViewTypes);
+        outState.putBoolean(KEY_TYPES_POS_DEPENDENT, mTypesPosDependent);
     }
 
 
     private List<ItemModel> createItemList() {
         List<ItemModel> list = new ArrayList<>();
 
-        if (isDifferentViewTypes) {
+        if (mIsDifferentViewTypes) {
             list.add(new ItemModel(R.id.item_type_1, "1"));
             list.add(new ItemModel(R.id.item_type_2, "2"));
             list.add(new ItemModel(R.id.item_type_3, "3"));
