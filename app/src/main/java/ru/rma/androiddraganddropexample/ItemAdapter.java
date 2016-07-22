@@ -11,13 +11,14 @@ import java.util.Collections;
 import java.util.List;
 
 
-class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements ItemTouchHelperAdapter {
+class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> implements ItemTouchHelperAdapter {
 
 
-    private List<ItemModel> mItems;
+    protected List<ItemModel> mItems;
 
     public ItemAdapter(@NonNull List<ItemModel> items) {
         mItems = items;
+        rebindViewTypes();
     }
 
     @Override
@@ -80,22 +81,26 @@ class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements ItemTo
         Collections.swap(mItems, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
     }
-}
 
+    @Override
+    public void rebindViewTypes() {
 
-class ItemViewHolder extends RecyclerView.ViewHolder {
-
-
-    private TextView mName;
-
-    public ItemViewHolder(View itemView) {
-        super(itemView);
-
-        mName = (TextView) itemView.findViewById(R.id.tv_name);
     }
 
+    class ItemViewHolder extends RecyclerView.ViewHolder {
 
-    public void setName(String name) {
-        mName.setText(name);
+
+        private TextView mName;
+
+        public ItemViewHolder(View itemView) {
+            super(itemView);
+            mName = (TextView) itemView.findViewById(R.id.tv_name);
+        }
+
+
+        public void setName(String name) {
+            mName.setText(name);
+        }
     }
+
 }

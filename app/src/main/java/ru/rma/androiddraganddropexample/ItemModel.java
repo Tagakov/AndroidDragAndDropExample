@@ -2,7 +2,7 @@ package ru.rma.androiddraganddropexample;
 
 class ItemModel {
 
-    private final int mType;
+    private int mType;
     private String mName;
 
 
@@ -14,6 +14,10 @@ class ItemModel {
 
     public int getType() {
         return mType;
+    }
+
+    public void setType(int mType) {
+        this.mType = mType;
     }
 
     public String getName() {
